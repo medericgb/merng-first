@@ -2,6 +2,9 @@
   "name": "merng-first",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "server": "cd server && npm run server"
+  },
   "repository": "https://github.com/medericgb/merng-first.git",
   "author": "medericgb <medericjoel@gmail.com>",
   "license": "MIT"
