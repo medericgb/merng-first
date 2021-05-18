@@ -1,4 +1,4 @@
-const { ApolloServer } = require("apollo-server");
+const { ApolloServer, PubSub } = require("apollo-server");
 const mongoose = require("mongoose");
 
 // Dotenv
@@ -9,10 +9,12 @@ const uri = process.env.MONGODB_URI;
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers");
 
+const pubsub = new PubSub();
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => ({ req }),
+  context: ({ req }) => ({ req, pubsub }),
 });
 
 // Connection to MongoDB
