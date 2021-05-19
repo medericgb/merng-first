@@ -38,8 +38,8 @@ module.exports = {
         user: user.indexOf,
         username: user.username,
       });
-
       const post = await newPost.save();
+
       context.pubsub.publish("NEW_POST", {
         newPost: post,
       });
