@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "server": "cd server && npm run server"
+    "client": "cd client && npm run start",
+    "server": "cd server && npm run server",
+    "app": "cd server && npm run server && cd .. && cd client && npm run start"
   },
   "repository": "https://github.com/medericgb/merng-first.git",
   "author": "medericgb <medericjoel@gmail.com>",
