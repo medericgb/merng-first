@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { Grid } from "semantic-ui-react";
 
@@ -7,27 +7,29 @@ import PostCard from "../components/PostCard";
 
 function Home() {
   const { loading, data } = useQuery(FETCH_POSTS_QUERY);
+  const [posts, setPosts] = useState();
 
   useEffect(() => {
     if (data) {
-      console.log(data.getPosts);
+      setPosts(data.getPosts);
+      console.log(posts);
     }
   }, [data]);
 
   // console.log(data);
 
   return (
-    <Grid columns={3} divided>
-      <Grid.Row>
+    <Grid columns={3}>
+      <Grid.Row className="page-title">
         <h1>Recent posts</h1>
       </Grid.Row>
       <Grid.Row>
         {loading ? (
           <h1>Loading posts...</h1>
         ) : (
-          data.getPosts &&
-          data.getPosts.map((post) => (
-            <Grid.Column key={post.id}>
+          posts &&
+          posts.map((post) => (
+            <Grid.Column key={post.id} style={{ marginBottom: 18 }}>
               <PostCard post={post} />
             </Grid.Column>
           ))
