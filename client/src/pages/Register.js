@@ -1,43 +1,36 @@
 import React, { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { Form, Button } from "semantic-ui-react";
+import { useForm } from "../util/hooks";
 
-function Register() {
+function Register(props) {
   const [errors, setErrors] = useState({});
-  const [values, setValues] = useState({
+
+  const { onChange, onSubmit, values } = useForm(registerUser, {
     username: "",
     password: "",
     email: "",
     confirmPassword: "",
   });
 
-  const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
-    update(proxy, result) {
+    update(_, result) {
       console.log(result);
+      props.history.push("/");
     },
     onError(err) {
-      console.log(err.graphQLErrors[0].extensions.exception.errors);
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
     variables: values,
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  function registerUser() {
     addUser();
-  };
+  }
 
   return (
     <div className="form-container">
-      <Form
-        onSubmit={handleSubmit}
-        noValidate
-        className={loading ? "loading" : ""}
-      >
+      <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ""}>
         <h1>Register</h1>
         <Form.Input
           label="Username"
@@ -45,7 +38,7 @@ function Register() {
           name="username"
           type="text"
           value={values.username}
-          onChange={handleChange}
+          onChange={onChange}
         />
         <Form.Input
           label="Email"
@@ -53,7 +46,7 @@ function Register() {
           name="email"
           type="text"
           value={values.email}
-          onChange={handleChange}
+          onChange={onChange}
         />
         <Form.Input
           label="Password"
@@ -61,7 +54,7 @@ function Register() {
           name="password"
           type="password"
           value={values.password}
-          onChange={handleChange}
+          onChange={onChange}
         />
         <Form.Input
           label="Confirm Password"
@@ -69,7 +62,7 @@ function Register() {
           name="confirmPassword"
           type="password"
           value={values.confirmPassword}
-          onChange={handleChange}
+          onChange={onChange}
         />
 
         <Button type="submit" primary>

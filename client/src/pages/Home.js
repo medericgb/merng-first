@@ -9,6 +9,7 @@ function Home() {
   const { loading, data } = useQuery(FETCH_POSTS_QUERY);
   const [posts, setPosts] = useState();
 
+  // useEffect for get data during component mounting
   useEffect(() => {
     if (data) {
       setPosts(data.getPosts);
